@@ -1,0 +1,10 @@
+{
+    "require": {
+        "league/mime-type-detection": "^1.11",
+        "psr/http-message": "^1.0",
+        "nesbot/carbon": "^2.58"
+    },
+    "require-dev": {
+        "brick/math": "^0.9.3"
+    }
+}

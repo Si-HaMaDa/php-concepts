@@ -10,10 +10,15 @@ class Validations
 
     public function __construct($value)
     {
-        $this->value = $value;
-        $this->value = trim($this->value);
-        $this->value = stripslashes($this->value);
-        $this->value = htmlspecialchars($this->value);
+        $this->value = $this->startFilltering($value);
+    }
+
+    public function startFilltering($value)
+    {
+        $value = trim($value);
+        $value = stripslashes($value);
+        $value = htmlspecialchars($value);
+        return $value;
     }
 
     public function isIsset()
@@ -61,6 +66,15 @@ class Validations
         return $this;
     }
 
+    public function isIn($in = [])
+    {
+        if (!in_array($this->value, $in)) {
+            $this->error = true;
+            $this->messages[] = "Value is not in allowed values!";
+        }
+        return $this;
+    }
+
     public function min($number = 6)
     {
         if (strlen($this->value) < $number) {
@@ -75,6 +89,15 @@ class Validations
         if (strlen($this->value) > $number) {
             $this->error = true;
             $this->messages[] = "Value must be Less than $number!";
+        }
+        return $this;
+    }
+
+    public function confirmed($confirmation)
+    {
+        if ($this->value != $this->startFilltering($confirmation)) {
+            $this->error = true;
+            $this->messages[] = "Value must be confirmed!";
         }
         return $this;
     }

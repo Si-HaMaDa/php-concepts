@@ -22,16 +22,11 @@ class Validations
         return $value;
     }
 
-    public function isNullable()
+    public function notEmpty()
     {
-        if (
-            !isset($this->value)
-            || empty($this->value)
-            || (isset($this->value["tmp_name"]) && empty($this->value["tmp_name"]))
-        ) {
-            $this->value = null;
-            $this->error = false;
-            $this->messages[] = "Value is nullable!";
+        if (empty($this->value)) {
+            $this->error = true;
+            $this->messages[] = "Value is Empty!";
         }
         return $this;
     }
@@ -41,36 +36,6 @@ class Validations
         if (!isset($this->value)) {
             $this->error = true;
             $this->messages[] = "Value is not set!";
-        }
-        return $this;
-    }
-
-    public function isArray()
-    {
-        if (!is_array($this->value)) {
-            $this->error = true;
-            $this->messages[] = "Value must be Array!";
-        }
-        return $this;
-    }
-
-    public function arrayValues($is)
-    {
-        foreach ($this->value as $value) {
-            $val = (new Validations($value))->$is();
-            if ($val->error) {
-                $this->error = true;
-                $this->messages = array_merge($this->messages, $val->messages);
-            }
-        }
-        return $this;
-    }
-
-    public function notEmpty()
-    {
-        if (empty($this->value)) {
-            $this->error = true;
-            $this->messages[] = "Value is Empty!";
         }
         return $this;
     }
@@ -147,6 +112,42 @@ class Validations
         return $this;
     }
 
+    public function isNullable()
+    {
+        if (
+            !isset($this->value)
+            || empty($this->value)
+            || (isset($this->value["tmp_name"]) && empty($this->value["tmp_name"]))
+        ) {
+            $this->value = null;
+            $this->error = false;
+            $this->messages[] = "Value is nullable!";
+        }
+        return $this;
+    }
+
+    public function isArray()
+    {
+        if (!is_array($this->value)) {
+            $this->error = true;
+            $this->messages[] = "Value must be Array!";
+        }
+        return $this;
+    }
+
+    public function arrayValues($is)
+    {
+        foreach ($this->value as $value) {
+            $val = (new Validations($value))->$is();
+            if ($val->error) {
+                $this->error = true;
+                $this->messages = array_merge($this->messages, $val->messages);
+            }
+        }
+        return $this;
+    }
+
+
     protected function checkFile($file = null)
     {
         $file = $this->value["tmp_name"] ?? $file;
@@ -198,5 +199,15 @@ class Validations
     public function checkErrors()
     {
         return $this->error;
+    }
+
+    public function getMessages()
+    {
+        return $this->messages;
+    }
+
+    public function getValue()
+    {
+        return $this->value;
     }
 }

@@ -14,16 +14,19 @@ require './Helpers/DB.php';
 
 echo '<pre>';
 
-/* 
-$nameCheck = new Validations('Mo.');
 
-var_dump(
-    $nameCheck
-        ->notEmpty()
-        ->isName()
-        ->min(5)
-        ->max(20)
-);
+$nameCheck = new Validations('M.', 'notEmpty|isName|min:3|max:20|isIn:Mo,Mr,Mrs,Ms');
+// $nameCheck = new Validations('M.');
+
+var_dump($nameCheck);
+// var_dump(
+//     $nameCheck
+//         ->notEmpty()
+//         ->isName()
+//         ->min(5)
+//         ->max(20)
+//         ->isIn(['Mo', 'Mr', 'Mrs', 'Ms'])
+// );
 
 // $nameCheck->notEmpty()->isIsset()->isName()->max(10);
 
@@ -40,7 +43,7 @@ $passCheck->max(20);
 $passCheck->isFile();
 
 var_dump($passCheck);
- */
+
 
 $db = new DB();
 

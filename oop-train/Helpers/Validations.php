@@ -8,9 +8,18 @@ class Validations
     protected $error = false;
     protected $messages = [];
 
-    public function __construct($value)
+    public function __construct($value, $rules = NULL)
     {
         $this->value = $this->startFilltering($value);
+
+        if ($rules) {
+            $rules = explode('|', $rules);
+            foreach ($rules as $rule) {
+                $method = explode(':', $rule)[0];
+                $params = explode(':', $rule)[1] ?? NULL;
+                $this->$method($params);
+            }
+        }
     }
 
     public function startFilltering($value)
@@ -78,6 +87,7 @@ class Validations
 
     public function isIn($in = [])
     {
+        $in = !is_array($in) ? explode(',', $in) : $in;
         if (!in_array($this->value, $in)) {
             $this->error = true;
             $this->messages[] = "Value is not in allowed values!";

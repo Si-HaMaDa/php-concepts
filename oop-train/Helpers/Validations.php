@@ -4,9 +4,9 @@
 
 class Validations
 {
-    public $value;
-    public $error = false;
-    public $messages = [];
+    protected $value;
+    protected $error = false;
+    protected $messages = [];
 
     public function __construct($value)
     {

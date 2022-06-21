@@ -7,19 +7,13 @@ class Validations
     protected $value;
     protected $error = false;
     protected $messages = [];
+    protected $rules = '';
 
-    public function __construct($value, $rules = NULL)
+    public function __construct($value, $rules = '')
     {
         $this->value = $this->startFilltering($value);
-
-        if ($rules) {
-            $rules = explode('|', $rules);
-            foreach ($rules as $rule) {
-                $method = explode(':', $rule)[0];
-                $params = explode(':', $rule)[1] ?? NULL;
-                $this->$method($params);
-            }
-        }
+        $this->rules = $rules;
+        $this->validateRules();
     }
 
     public function startFilltering($value)
@@ -29,6 +23,18 @@ class Validations
         $value = stripslashes($value);
         $value = htmlspecialchars($value);
         return $value;
+    }
+
+    public function validateRules()
+    {
+        if (empty($this->rules)) return;
+
+        $rules = explode('|', $this->rules);
+        foreach ($rules as $rule) {
+            $method = explode(':', $rule)[0];
+            $params = explode(':', $rule)[1] ?? NULL;
+            $this->$method($params);
+        }
     }
 
     public function notEmpty()

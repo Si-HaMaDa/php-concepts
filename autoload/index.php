@@ -10,7 +10,14 @@
 // Or, using an anonymous function
 spl_autoload_register(
     function ($class) {
-        require 'classes/' . str_replace("\\", DIRECTORY_SEPARATOR, $class) . '.php';
+        // var_dump('From spl autoload');
+
+        // var_dump($class);
+
+        // var_dump('classes/' . str_replace("\\", DIRECTORY_SEPARATOR, $class) . '.php');
+        // die;
+
+        require 'classes' . DIRECTORY_SEPARATOR . str_replace("\\", DIRECTORY_SEPARATOR, $class) . '.php';
     }
 );
 
@@ -26,3 +33,6 @@ echo $mohamed->var;
 $try_again = new App\Model\Again\TryAgain();
 
 echo $try_again->var;
+
+
+echo '<br>Hello World!';

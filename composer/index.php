@@ -15,6 +15,8 @@ echo '<br>';
 echo Carbon::parse('2019-07-23 14:51')->locale('ar_EG')->isoFormat('LLLL');
 
 echo '<br>';
+echo '<br>';
+echo '<br>';
 
 use Brick\Math\BigInteger;
 use Brick\Math\BigDecimal;
@@ -38,3 +40,7 @@ $detector = new League\MimeTypeDetection\FinfoMimeTypeDetector();
 $mimeType = $detector->detectMimeTypeFromFile('ooo.png');
 
 echo $mimeType . '<br>';
+
+echo '<br>';
+echo '<br>';
+echo '<br>';

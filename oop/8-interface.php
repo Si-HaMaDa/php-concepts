@@ -4,8 +4,18 @@ interface Car4
 {
     public function __construct($name, $model);
 
-    public function safty($var);
+    // public function safty($var);
 
+    // public function intro();
+}
+
+interface Safty
+{
+    public function safty($var);
+}
+
+interface Intro
+{
     public function intro();
 }
 
@@ -13,7 +23,7 @@ interface Car4
 // var_dump($kia);
 
 
-class Kia implements Car4
+class Kia implements Car4, Intro, Safty
 {
     public function __construct($name, $model)
     {
@@ -21,14 +31,14 @@ class Kia implements Car4
         $this->model = $model;
     }
 
-    public function safty($var)
-    {
-        echo 'Try!';
-    }
-
     public function intro()
     {
         echo "The Car is {$this->name} and the model is {$this->model}.";
+    }
+
+    public function safty($var)
+    {
+        echo 'Try!';
     }
 }
 

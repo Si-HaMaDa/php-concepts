@@ -66,9 +66,11 @@ $mango = new User('Nour', 'nour@mail.com', '123456', '0123456789');
 $mango->name = 'Mango'; // OK
 // $mango->email = 'Yellow@user.com'; // ERROR
 // $mango->password = '300'; // ERROR
+var_dump($mango);
 
 $mango->set_email('Yellow@user.com');
 // echo $mango->get_email(); // ERORR
-echo $mango->get_email_1();
+// echo $mango->get_email_1();
+var_dump($mango);
 
-echo $mango->name;
+// echo $mango->name;

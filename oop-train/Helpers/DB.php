@@ -7,7 +7,7 @@
 class DB
 {
     public $connection;
-    public function __construct()
+    public function __construct($newDB = null)
     {
         // new PDO("mysql:host=$servername;dbname=myDB", $username, $password);
         $this->connection = new PDO(
@@ -16,15 +16,17 @@ class DB
             DB_PASSWORD
         );
         $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $this->connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
     }
 
-    public function all($table)
+    public function all($table, $columns = ['*'])
     {
+        $columns = implode(',', $columns);
         // SELECT * FROM table_name; 
-        $query = "SELECT * FROM $table";
+        $query = "SELECT $columns FROM $table";
         $sql = $this->connection->prepare($query);
         $sql->execute();
-        return $sql->fetchAll(PDO::FETCH_ASSOC);
+        return $sql->fetchAll();
     }
 
     public function first($table, $id)
@@ -34,12 +36,12 @@ class DB
         $sql = $this->connection->prepare($query);
         $sql->bindParam(':id', $id);
         $sql->execute();
-        return $sql->fetch(PDO::FETCH_ASSOC);
+        return $sql->fetch();
     }
 
     public function getWhere($table, $condition)
     {
-        // SELECT column_name(s) FROM table_name WHERE column_name operator value AND column_name operator value ...  
+        // SELECT column_name(s) FROM table_name WHERE column_name operator 'value' AND column_name operator 'value' ...  
         $query = "SELECT * FROM $table WHERE ";
 
         // SELECT * FROM users WHERE id = 1 AND name = 'Alyssa Gilmore'
@@ -49,7 +51,7 @@ class DB
         $query = rtrim($query, ' AND ');
         $sql = $this->connection->prepare($query);
         $sql->execute();
-        return $sql->fetchAll(PDO::FETCH_ASSOC);
+        return $sql->fetchAll();
     }
 
     public function getIdIn($table, $ids)
@@ -64,7 +66,7 @@ class DB
 
     public function insert($table, $data)
     {
-        // INSERT INTO table_name (column1, column2, column3, ...) VALUES (value1, value2, value3, ...)
+        // INSERT INTO table_name (column1, column2, column3, ...) VALUES ('value1', 'value2', 'value3', ...)
         $columns = implode(', ', array_keys($data));
         $values = implode("', '", array_values($data));
         $query = "INSERT INTO $table ($columns) VALUES ('$values')";
@@ -75,7 +77,7 @@ class DB
 
     public function update($table, $data, $condition)
     {
-        // UPDATE table_name SET column1 = value1, column2 = value2, ... WHERE condition;
+        // UPDATE table_name SET column1 = 'value1', column2 = 'value2', ... WHERE column_name operator 'value' AND column_name operator 'value' ...  ;
         $updateData = '';
         foreach ($data as $key => $value) {
             $updateData .= "$key = '$value', ";

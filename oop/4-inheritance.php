@@ -1,7 +1,5 @@
 <?php
 
-use cerato as GlobalCerato;
-
 class Car2
 {
     public $name;
@@ -51,11 +49,22 @@ echo '<br><br><br><br>';
 $sportage = new Kia('sportage');
 // $sportage->intro();
 var_dump($sportage);
+echo '<br><br><br><br>';
 
 
 class cerato extends Kia
 {
+    public $name = 'Kia';
     public $model = 'cerato';
     public $doors = '4';
     public $engine = '1.6';
+
+    function __construct()
+    {
+    }
 }
+
+$certo2 = new cerato();
+// $certo2->intro();
+var_dump($certo2);
+echo '<br><br><br><br>';
